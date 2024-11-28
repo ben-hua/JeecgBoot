@@ -1,11 +1,10 @@
-import { defHttp } from '/@/utils/http/axios';
 import { Modal } from 'ant-design-vue';
+import { defHttp } from '/@/utils/http/axios';
 enum Api {
-  list = '/sys/dict/list',
-  save = '/sys/dict/add',
-  edit = '/sys/dict/edit',
+  dicts = '/qboot/sys/dicts',
+  // edit = '/sys/dict/edit',
   duplicateCheck = '/sys/duplicate/check',
-  deleteDict = '/sys/dict/delete',
+  // deleteDict = '/sys/dict/delete',
   deleteBatch = '/sys/dict/deleteBatch',
   importExcel = '/sys/dict/importExcel',
   exportXls = '/sys/dict/exportXls',
@@ -36,12 +35,12 @@ export const getImportUrl = Api.importExcel;
  * 字典列表接口
  * @param params
  */
-export const list = (params) => defHttp.get({ url: Api.list, params });
+export const list = (params) => defHttp.get({ url: Api.dicts, params });
 /**
  * 删除字典
  */
 export const deleteDict = (params, handleSuccess) => {
-  return defHttp.delete({ url: Api.deleteDict, params }, { joinParamsToUrl: true }).then(() => {
+  return defHttp.delete({ url: Api.dicts + '/' + params['id'], params }, { joinParamsToUrl: true }).then(() => {
     handleSuccess();
   });
 };
@@ -56,7 +55,7 @@ export const batchDeleteDict = (params, handleSuccess) => {
     okText: '确认',
     cancelText: '取消',
     onOk: () => {
-      return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
+      return defHttp.delete({ url: Api.dicts, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
       });
     },
@@ -67,7 +66,12 @@ export const batchDeleteDict = (params, handleSuccess) => {
  * @param params
  */
 export const saveOrUpdateDict = (params, isUpdate) => {
-  let url = isUpdate ? Api.edit : Api.save;
+  let url = Api.dicts;
+  if (isUpdate) {
+    url += '/' + params['id'];
+    return defHttp.put({ url: url, params });
+  }
+
   return defHttp.post({ url: url, params });
 };
 /**
@@ -86,7 +90,7 @@ export const getRecycleBinList = (params) => defHttp.get({ url: Api.recycleBinLi
  * @param params
  */
 export const batchPutRecycleBin = (params, handleSuccess) => {
-  return defHttp.put({ url: Api.batchPutRecycleBin, params}).then(() => {
+  return defHttp.put({ url: Api.batchPutRecycleBin, params }).then(() => {
     handleSuccess();
   });
 };
@@ -104,7 +108,7 @@ export const putRecycleBin = (id, handleSuccess) => {
  * @param params
  */
 export const batchDeleteRecycleBin = (params, handleSuccess) => {
-  return defHttp.delete({ url: `${Api.batchDeleteRecycleBin}?ids=${params.ids}`}).then(() => {
+  return defHttp.delete({ url: `${Api.batchDeleteRecycleBin}?ids=${params.ids}` }).then(() => {
     handleSuccess();
   });
 };

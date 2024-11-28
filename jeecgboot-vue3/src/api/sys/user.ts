@@ -1,14 +1,14 @@
+import { GetUserInfoModel, LoginParams, LoginResultModel } from './model/userModel';
 import { defHttp } from '/@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
 
+import { ExceptionEnum } from "@/enums/exceptionEnum";
 import { ErrorMessageMode } from '/#/axios';
+import { TOKEN_KEY } from '/@/enums/cacheEnum';
+import { PageEnum } from '/@/enums/pageEnum';
 import { useMessage } from '/@/hooks/web/useMessage';
+import { router } from '/@/router';
 import { useUserStoreWithOut } from '/@/store/modules/user';
 import { setAuthCache } from '/@/utils/auth';
-import { TOKEN_KEY } from '/@/enums/cacheEnum';
-import { router } from '/@/router';
-import { PageEnum } from '/@/enums/pageEnum';
-import { ExceptionEnum } from "@/enums/exceptionEnum";
 
 const { createErrorModal } = useMessage();
 enum Api {
@@ -111,7 +111,7 @@ export function doLogout() {
 }
 
 export function getCodeInfo(currdatetime) {
-  let url = Api.getInputCode + `/${currdatetime}`;
+  const url = Api.getInputCode + `/${currdatetime}`;
   return defHttp.get({ url: url });
 }
 /**
@@ -125,14 +125,14 @@ export function getCaptcha(params) {
         resolve(true);
       } else {
         //update-begin---author:wangshuai---date:2024-04-18---for:【QQYUN-9005】同一个IP，1分钟超过5次短信，则提示需要验证码---
-        if(res.code != ExceptionEnum.PHONE_SMS_FAIL_CODE){
+        if (res.code != ExceptionEnum.PHONE_SMS_FAIL_CODE) {
           createErrorModal({ title: '错误提示', content: res.message || '未知问题' });
           reject();
         }
         reject(res);
         //update-end---author:wangshuai---date:2024-04-18---for:【QQYUN-9005】同一个IP，1分钟超过5次短信，则提示需要验证码---
       }
-    }).catch((res)=>{
+    }).catch((res) => {
       createErrorModal({ title: '错误提示', content: res.message || '未知问题' });
       reject();
     });
@@ -167,7 +167,7 @@ export const passwordChange = (params) => defHttp.get({ url: Api.passwordChange,
 export function thirdLogin(params, mode: ErrorMessageMode = 'modal') {
   //==========begin 第三方登录/auth2登录需要传递租户id===========
   let tenantId = "0";
-  if(!params.tenantId){
+  if (!params.tenantId) {
     tenantId = params.tenantId;
   }
   //==========end 第三方登录/auth2登录需要传递租户id===========

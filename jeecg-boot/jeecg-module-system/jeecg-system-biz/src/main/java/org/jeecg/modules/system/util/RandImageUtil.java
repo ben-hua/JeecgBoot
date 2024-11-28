@@ -1,8 +1,8 @@
 package org.jeecg.modules.system.util;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -10,6 +10,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 登录验证码工具类
@@ -82,10 +85,10 @@ public class RandImageUtil {
         //写到指定位置
         //ImageIO.write(bufferedImage, "png", new File(""));
 
-        return BASE64_PRE+base64;
+        return BASE64_PRE + base64;
     }
 
-    private static BufferedImage getImageBuffer(String resultCode){
+    private static BufferedImage getImageBuffer(String resultCode) {
         // 在内存中创建图象
         final BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         // 获取图形上下文
@@ -95,7 +98,7 @@ public class RandImageUtil {
         graphics.setColor(Color.WHITE);
         graphics.fillRect(0, 0, WIDTH, HEIGHT);
         // 设定边框颜色
-//		graphics.setColor(getRandColor(100, 200)); // ---2
+        //		graphics.setColor(getRandColor(100, 200)); // ---2
         graphics.drawRect(0, 0, WIDTH - 1, HEIGHT - 1);
 
         // SHA1PRNG是-种常用的随机数生成算法,处理弱随机数问题
@@ -125,7 +128,8 @@ public class RandImageUtil {
             // 设置字体颜色
             graphics.setColor(Color.BLACK);
             // 设置字体样式
-//			graphics.setFont(new Font("Arial Black", Font.ITALIC, 18));
+            //			graphics.setFont(new Font("Arial Black", Font.ITALIC, 18));
+
             graphics.setFont(new Font("Times New Roman", Font.BOLD, 24));
             // 设置字符，字符间距，上边距
             graphics.drawString(String.valueOf(resultCode.charAt(i)), (23 * i) + 8, 26);

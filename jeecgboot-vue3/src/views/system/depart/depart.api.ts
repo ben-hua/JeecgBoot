@@ -1,11 +1,11 @@
 import { unref } from 'vue';
-import { defHttp } from '/@/utils/http/axios';
 import { useMessage } from '/@/hooks/web/useMessage';
+import { defHttp } from '/@/utils/http/axios';
 
 const { createConfirm } = useMessage();
 
 export enum Api {
-  queryDepartTreeSync = '/sys/sysDepart/queryDepartTreeSync',
+  queryDepartTreeSync = '/qboot/api/sys/organizations/all',
   save = '/sys/sysDepart/add',
   edit = '/sys/sysDepart/edit',
   delete = '/sys/sysDepart/delete',
@@ -101,7 +101,7 @@ export const selectDepart = (params?) => defHttp.put({ url: Api.selectDepart, pa
  * 编辑部门前获取部门相关信息
  * @param id
  */
-export const getUpdateDepartInfo = (id) => defHttp.get({ url: Api.getUpdateDepartInfo, params: {id} });
+export const getUpdateDepartInfo = (id) => defHttp.get({ url: Api.getUpdateDepartInfo, params: { id } });
 
 /**
  * 编辑部门
@@ -113,7 +113,7 @@ export const doUpdateDepartInfo = (params) => defHttp.put({ url: Api.doUpdateDep
  * 删除部门
  * @param id
  */
-export const deleteDepart = (id) => defHttp.delete({ url: Api.delete, params:{ id } }, { joinParamsToUrl: true });
+export const deleteDepart = (id) => defHttp.delete({ url: Api.delete, params: { id } }, { joinParamsToUrl: true });
 
 /**
  * 设置负责人 取消负责人

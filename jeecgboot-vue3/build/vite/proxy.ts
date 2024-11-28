@@ -28,7 +28,13 @@ export function createProxy(list: ProxyList = []) {
       rewrite: (path) => path.replace(new RegExp(`^${prefix}`), ''),
       // https is require secure=false
       ...(isHttps ? { secure: false } : {}),
+      configure: (proxy) => {
+        proxy.on('proxyReq', (proxyReq, req) => {
+          console.log(`[Proxy] ${req.url} => ${proxyReq.getHeader('host')} ${proxyReq.path}`);
+        });
+      },
     };
   }
+
   return ret;
 }
